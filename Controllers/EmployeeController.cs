@@ -26,36 +26,52 @@ namespace EmployeeManagementSystem.Controllers
         [HttpPost]
         public IActionResult Create(Employee employee)
         {
-            _context.Employees.Add(employee);
-            _context.SaveChanges();
+            if (employee != null)
+            {
+                _context.Employees.Add(employee);
+                _context.SaveChanges();
+            }
+
             return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
         {
-            var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
-            if (employee == null)
-                return NotFound();
+            if (id > 0)
+            {
+                var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
+                if (employee == null)
+                    return NotFound();
 
-            return View(employee);
+                return View(employee);
+            }
+
+            return RedirectToAction("Index");
+
         }
 
         [HttpPost]
         public IActionResult Edit(Employee employee)
         {
-            _context.Employees.Update(employee);
-            _context.SaveChanges();
+            if (employee != null)
+            {
+                _context.Employees.Update(employee);
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
-            if (employee == null)
-                return NotFound();
+            if (id > 0)
+            {
+                var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
+                if (employee == null)
+                    return NotFound();
 
-            _context.Employees.Remove(employee);
-            _context.SaveChanges();
+                _context.Employees.Remove(employee);
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
     }
